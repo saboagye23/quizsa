@@ -1,0 +1,26 @@
+.hidden{
+    display :none;
+}
+
+.checkAnswer{
+    color:#808080a6;
+}
+
+.anwserChoices{
+    list-style-type: none;
+    padding: 0;
+}
+
+.anwserChoices li .choice{
+    padding:20px;
+    background-color: blue;
+    color:white;
+    margin: 5px 0;
+    display: inline-block;
+    min-width: 200px;
+    cursor: pointer;
+}
+
+.anwserChoices li .choice:hover{
+    background-color: violet;
+}
