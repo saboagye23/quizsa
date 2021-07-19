@@ -1,3 +1,29 @@
+main{
+    padding: 40px 20%;
+    font-size: 20px;
+}
+
+a{
+    text-decoration: none;
+    color: violet;
+    display: inline-block;
+}
+
+header{
+    clear: both;
+    padding: 10px;
+    font-size: 20px;
+}
+
+header div{
+    float: right;
+}
+
+ul{
+    list-style-type: none;
+    padding: 0;
+}
+
 .hidden{
     display :none;
 }
@@ -6,21 +32,45 @@
     color:#808080a6;
 }
 
-.anwserChoices{
-    list-style-type: none;
-    padding: 0;
+.btn{
+    padding:10px 20px;
+    background-color: #3e1882;
+    cursor: pointer;
+    color:white;
+    border: 0 ;
+    border-radius: 5px;
+    font-size: 16px;
 }
 
-.anwserChoices li .choice{
-    padding:20px;
-    background-color: blue;
-    color:white;
+input[type="text"]{
+    font-size: 26px;
+}
+
+.btn:hover{
+    background-color: violet;
+}
+
+#btnStartQuiz{
+    font-size: 22px;
+}
+
+.bgGrey{
+    background-color: grey;
+    color: #000;
+}
+
+.anwserChoices li .choice{ 
     margin: 5px 0;
     display: inline-block;
     min-width: 200px;
-    cursor: pointer;
 }
 
-.anwserChoices li .choice:hover{
-    background-color: violet;
+.highScores li{
+    margin: 5px 0;
+    padding: 5px;
+    background-color: #673ab71c;
+}
+
+#startQuiz{
+    text-align: center;
 }

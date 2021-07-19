@@ -2,7 +2,7 @@
 function renderQuestion(qNum, question, previousAnswer, timer){
     var questionText="<h2>"+ question.content+ "</h2><ul class='anwserChoices'>";
     question.choices.forEach((choice, index) => {
-        questionText += "<li> <div qNum ="+qNum+" index='"+index+"' class='choice'>" +(index+1)+". "+ choice + "</div></li>";
+        questionText += "<li> <div qNum ="+qNum+" index='"+index+"' class='choice btn'>" +(index+1)+". "+ choice + "</div></li>";
     });
     questionText += "</ul>";
 
@@ -18,15 +18,24 @@ function renderQuestion(qNum, question, previousAnswer, timer){
 }
 
 function renderScores(currentScore){
-    var scoreText = "<h2>All Done!</h2>"+
-                    "<div>Your final Score is "+currentScore+".</div>"+
-                    "<div>Enter intials: <input type='text' id='txtInitials'/> <button id='btnSubmitScore'>Submit</button>"; 
+    var scoreText = "<h2>All done!</h2>"+
+                    "<p>Your final Score is "+currentScore+".</p>"+
+                    "<div>Enter intials: <input type='text' id='txtInitials'/> <button id='btnSubmitScore' class='btn'>Submit</button>"; 
     
     $('#questions').html(scoreText);                
 }
 
 function renderHighScores(scores){
+    var highScoresText = "<h2>High Scores</h2><ul class='highScores'>";
 
+    scores.forEach((score, index)=>{
+        highScoresText += "<li class='bgGrey'>"+ (index + 1) +". "+ score.initials + " - "+ score.value +"</li>";
+    });
+
+    highScoresText +="</ul>";
+    highScoresText +="<div><button class='btn' id='btnGoBack' >Go Back</button> <button class='btn' id='btnClear'>Clear high Scores</button></div>"
+
+    $('#questions').html(highScoresText);    
 }
 
 $(document).ready(function(){
@@ -63,18 +72,25 @@ $(document).ready(function(){
         }
     ];
 
-    var scores, timer,currentScore, highestScore;
+    var scores = [], timer=75, currentScore;
+    function updateTimer(){
+        if(timer > 0){
+            timer -= 1;
+        }
+    
+        $("#timer").html(timer);
+    }
 
     $(document).on('click','#btnStartQuiz', function(){
         $('#startQuiz').addClass('hidden');
         $('#questions').removeClass('hidden');
 
-        scores = [];
-        currentScore = 0;
-        highestScore = {};
+        currentScore = 0; 
         timer = 75;
 
         renderQuestion(0, questions[0],undefined, timer);
+
+        setInterval(updateTimer, 1000);
     });
 
     $(document).on('click','.anwserChoices li .choice', function(){
@@ -89,7 +105,9 @@ $(document).ready(function(){
             currentScore += questions[qNum].score;
         }else{
             answer =  'Wrong!';
-            timer -= 15;
+            if(timer > 0){
+                timer -= 15;
+            }
         }
 
         // Go to next question;
@@ -97,11 +115,36 @@ $(document).ready(function(){
         if(timer > 0 && nextQNum < questions.length){ 
             renderQuestion(nextQNum, questions[nextQNum], answer, timer);
         } else {
+            // end of quiz
+            clearInterval(updateTimer);
             renderScores(currentScore);
         }
     });
 
     $(document).on('click','#btnSubmitScore', function(){
+        var initialsText = $('#txtInitials').val();
+        scores.push({
+            value: currentScore,
+            initials: initialsText
+        });
 
+        renderHighScores(scores);
+    });
+
+    $(document).on('click','#viewHighScores', function(){
+        $('#startQuiz').addClass('hidden');
+        $('#questions').removeClass('hidden');
+        renderHighScores(scores);
+    });
+
+    $(document).on('click','#btnGoBack', function(){
+        $('#startQuiz').removeClass('hidden');
+        $('#questions').addClass('hidden');
+        $('#questions').html('');
+    });
+
+    $(document).on('click','#btnClear', function(){
+        scores = [];
+        renderHighScores(scores);
     });
 });
