@@ -76,6 +76,8 @@ $(document).ready(function(){
     function updateTimer(){
         if(timer > 0){
             timer -= 1;
+        } else {
+            timer = 0;
         }
     
         $("#timer").html(timer);
